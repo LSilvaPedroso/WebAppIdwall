@@ -11,7 +11,6 @@ using WebAppIdwall.Connections;
 using WebAppIdwall.Models;
 using Newtonsoft.Json;
 using AutoMapper;
-using WebAppIdwall.Views;
 using WebAppIdwall.Repository;
 
 namespace WebAppIdwall.Controllers

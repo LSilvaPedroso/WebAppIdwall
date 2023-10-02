@@ -8,7 +8,6 @@ using System.Globalization;
 using WebAppIdwall.Connections;
 using WebAppIdwall.Models;
 using WebAppIdwall.Repository;
-using WebAppIdwall.Views;
 
 namespace WebAppIdwall.Controllers
 {
@@ -67,12 +66,12 @@ namespace WebAppIdwall.Controllers
                         else
                         {
                             // Desserializa a resposta em objetos C#
-                            var settings = new JsonSerializerSettings
-                            {
-                                ContractResolver = new IgnoreOccupationsContractResolver()
-                            };
+                            //var settings = new JsonSerializerSettings
+                            //{
+                            //    ContractResolver = new IgnoreOccupationsContractResolver()
+                            //};
 
-                            RootObject rootObject = JsonConvert.DeserializeObject<RootObject>(responseBody, settings);
+                            RootObject rootObject = JsonConvert.DeserializeObject<RootObject>(responseBody);
                             List<DataApiFBI> items = rootObject.Items;
 
                             foreach (var apiData in items)
