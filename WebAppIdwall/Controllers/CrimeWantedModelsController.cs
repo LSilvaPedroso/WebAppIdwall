@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAppIdwall.Connections;
 using WebAppIdwall.Models;
 using Newtonsoft.Json;
+using WebAppIdwall.Repository;
 
 namespace WebAppIdwall.Controllers
 {
@@ -17,31 +18,17 @@ namespace WebAppIdwall.Controllers
     [Route("api/[controller]")]
     public class CrimeWantedModelsController : Controller
     {
-        private readonly SqlContext _context;
+        private readonly CrimesWantedRepository _crimesWantedRepository;
 
-        public CrimeWantedModelsController(SqlContext context)
+        public CrimeWantedModelsController(CrimesWantedRepository crimesWantedRepository)
         {
-            _context = context;
+            _crimesWantedRepository = crimesWantedRepository;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<CrimeWantedModel>> Get()
         {
-            //var registros = _context.CrimeWanted.ToList();
-            var registros = _context.CrimeWanted
-                .Include(w => w.Wanted)
-                .Include(c => c.Crimes)
-                .AsNoTracking()
-                .ToList();
-
-            var options = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore, // Ignorar valores nulos
-                Formatting = Formatting.Indented, // Formato indentado para facilitar a leitura
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-
-            var json = JsonConvert.SerializeObject(registros, options);
+            string json = _crimesWantedRepository.GetAll();
 
             return Content(json, "application/json");
         }
@@ -49,21 +36,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("GetByIdWanted/{idWanted}")]
         public ActionResult<IEnumerable<CrimeWantedModel>> GetByIdWanted(int idWanted)
         {
-            var registros = _context.CrimeWanted
-                .Include(w => w.Wanted)
-                .Include(c => c.Crimes)
-                .Where(x => x.IdWanted.Equals(idWanted))
-                .AsNoTracking()
-                .ToList();
-
-            var options = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore, // Ignorar valores nulos
-                Formatting = Formatting.Indented, // Formato indentado para facilitar a leitura
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-
-            var json = JsonConvert.SerializeObject(registros, options);
+            string json = _crimesWantedRepository.GetByIdWanted(idWanted);
 
             return Content(json, "application/json");
         }
@@ -71,20 +44,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("GetByIdCrime/{idCrime}")]
         public ActionResult<IEnumerable<CrimeWantedModel>> GetByIdCrime(int idCrime)
         {
-            var registros = _context.CrimeWanted.AsNoTracking()
-                .Include(w => w.Wanted)
-                .Include(c => c.Crimes)
-                .Where(x => x.IdCrime.Equals(idCrime))
-                .ToList();
-
-            var options = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore, // Ignorar valores nulos
-                Formatting = Formatting.Indented, // Formato indentado para facilitar a leitura
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-
-            var json = JsonConvert.SerializeObject(registros, options);
+            string json = _crimesWantedRepository.GetByIdCrime(idCrime);
 
             return Content(json, "application/json");
 

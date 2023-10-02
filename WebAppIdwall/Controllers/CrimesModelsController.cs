@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppIdwall.Connections;
 using WebAppIdwall.Models;
+using WebAppIdwall.Repository;
 
 namespace WebAppIdwall.Controllers
 {
@@ -14,17 +15,16 @@ namespace WebAppIdwall.Controllers
     [Route("api/[controller]")]
     public class CrimesModelsController : Controller
     {
-        private readonly SqlContext _context;
+        private readonly CrimesRepository _crimesRepository;
 
-        public CrimesModelsController(SqlContext context)
+        public CrimesModelsController(CrimesRepository crimesRepository)
         {
-            _context = context;
+            _crimesRepository = crimesRepository;
         }
         [HttpGet]
         public ActionResult<IEnumerable<CrimesModel>> Get()
         {
-            var registros = _context.Crimes
-                .ToList();
+            var registros = _crimesRepository.GetAll();
 
             return Ok(registros);
         }
@@ -32,7 +32,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<CrimesModel>> GetById(int id)
         {
-            var registros = _context.Crimes.AsNoTracking().Where(x => x.Id.Equals(id));
+            var registros = _crimesRepository.GetById(id);
 
             return Ok(registros);
         }
@@ -40,7 +40,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("GetByNameLike/{name}")]
         public ActionResult<IEnumerable<CrimesModel>> GetByName(string name)
         {
-            var registros = _context.Crimes.AsNoTracking().Where(x => x.Name.Contains(name));
+            var registros = _crimesRepository.GetByName(name);
 
             return Ok(registros);
         }
@@ -48,7 +48,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("GetByNameExactly/{name}")]
         public ActionResult<IEnumerable<CrimesModel>> GetByNameExactly(string name)
         {
-            var registros = _context.Crimes.AsNoTracking().Where(x => x.Name.Equals(name));
+            var registros = _crimesRepository.GetByNameExactly(name);
 
             return Ok(registros);
         }

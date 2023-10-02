@@ -12,6 +12,8 @@ using WebAppIdwall.Connections;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using WebAppIdwall.Views;
+using WebAppIdwall.Repository;
 
 namespace WebAppIdwall
 {
@@ -31,6 +33,13 @@ namespace WebAppIdwall
                 options.UseSqlServer(Configuration.GetConnectionString("SQLConnectionString"));
             });
 
+            services.AddScoped<WantedRepository>();
+            services.AddScoped<BirthRepository>();
+            services.AddScoped<CautionRepository>();
+            services.AddScoped<CrimesRepository>();
+            services.AddScoped<CrimesWantedRepository>();
+            services.AddScoped<BirthWantedRepository>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers()
@@ -39,6 +48,7 @@ namespace WebAppIdwall
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     options.SerializerSettings.Formatting = Formatting.Indented;
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new IgnoreOccupationsContractResolver();
                 });
 
             // Configuração do Swagger

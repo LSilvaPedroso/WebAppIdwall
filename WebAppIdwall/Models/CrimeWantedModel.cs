@@ -9,18 +9,19 @@ namespace WebAppIdwall.Models
     {
         [Key]
         [Column("id_crimewanted")]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? Id { get; set; }
 
         [Column("id_crime")]
-        public int IdCrime { get; set; }
+        public int? IdCrime { get; set; }
         
         [Column("id_wanted")]
-        public int IdWanted { get; set; }
+        public int? IdWanted { get; set; }
         
-        public virtual CrimesModel Crimes { get; set; }
+        public virtual CrimesModel? Crimes { get; set; }
      
         [JsonIgnore]
-        public virtual WantedModel Wanted { get; set; }
+        public virtual WantedModel? Wanted { get; set; }
 
     }
 }

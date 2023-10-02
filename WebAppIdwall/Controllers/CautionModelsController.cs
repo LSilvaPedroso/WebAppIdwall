@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebAppIdwall.Connections;
 using WebAppIdwall.Models;
+using WebAppIdwall.Repository;
 
 namespace WebAppIdwall.Controllers
 {
@@ -14,18 +15,17 @@ namespace WebAppIdwall.Controllers
     [Route("api/[controller]")]
     public class CautionModelsController : Controller
     {
-        private readonly SqlContext _context;
+        private readonly CautionRepository _cautionRepository;
 
-        public CautionModelsController(SqlContext context)
+        public CautionModelsController(CautionRepository cautionRepository)
         {
-            _context = context;
+            _cautionRepository = cautionRepository;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<CautionModel>> Get()
         {
-            var registros = _context.Caution
-                .ToList();
+            var registros = _cautionRepository.GetAll();
 
             return Ok(registros);
         }
@@ -33,7 +33,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<CautionModel>> GetById(int id)
         {
-            var registros = _context.Caution.AsNoTracking().Where(x => x.Id.Equals(id));
+            var registros = _cautionRepository.GetById(id);
 
             return Ok(registros);
         }
@@ -41,7 +41,7 @@ namespace WebAppIdwall.Controllers
         [HttpGet("GetByIdWanted/{idWanted}")]
         public ActionResult<IEnumerable<CautionModel>> GetByIdWanted(int idWanted)
         {
-            var registros = _context.Caution.AsNoTracking().Where(x => x.IdWanted.Equals(idWanted));
+            var registros = _cautionRepository.GetByIdWanted(idWanted);
 
             return Ok(registros);
         }

@@ -9,16 +9,17 @@ namespace WebAppIdwall.Models
     {
         [Column("id_caution")]
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? Id { get; set; }
         
         [Column("str_caution")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [Column("id_wanted")]
-        public int IdWanted { get; set; }
+        public int? IdWanted { get; set; }
 
         
-        public virtual WantedModel Wanted { get; set; }
+        public virtual WantedModel? Wanted { get; set; }
 
     }
 }

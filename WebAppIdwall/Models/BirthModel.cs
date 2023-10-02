@@ -8,11 +8,12 @@ namespace WebAppIdwall.Models
     {
         [Column("id_birth")]
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? Id { get; set; }
 
         [Column("dt_birth")]
-        public DateTime Birth { get; set; }
-        public virtual ICollection<BirthWantedModel> BirthWanted { get; set; }
+        public string? Birth { get; set; }
+        public virtual ICollection<BirthWantedModel>? BirthWanted { get; set; }
 
     }
 }

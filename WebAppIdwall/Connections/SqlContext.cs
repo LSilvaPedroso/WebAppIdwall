@@ -9,6 +9,8 @@ namespace WebAppIdwall.Connections
         public DbSet<CrimesModel> Crimes { get; set; }
         public DbSet<CrimeWantedModel> CrimeWanted { get; set; }
         public DbSet<WantedModel> Wanted { get; set; }
+        public DbSet<BirthModel> Birth { get; set; }
+        public DbSet<BirthWantedModel> BirthWanted { get; set; }
 
         public SqlContext(DbContextOptions<SqlContext> options) : base(options)
         {
